@@ -5,7 +5,9 @@ const App = () => {
   return ( 
     <Router>
       <Navbar />
-      <h1>test</h1>
+      <main className="container pt-5">
+        <h1>test</h1>
+      </main>
 
     </Router>
    );

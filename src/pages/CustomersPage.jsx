@@ -28,6 +28,26 @@ const CustomersPage = (props) => {
        fetchCustomers()
     },[])
 
+    const handleDelete = async (id) => {
+        // pessimiste 
+        const originalCustomers = [...customers]
+
+        // optimiste
+        setCustomers(customers.filter(customer => customer.id !== id))
+
+        // faire le changement dans la base de données 
+        try{
+            await customersAPI.delete(id)
+        }catch(error)
+        {
+            // notif
+            setCustomers(originalCustomers)
+        }
+
+
+    }
+
+
     //  pour les filtres
     const handleSearch = event => {
         const value = event.currentTarget.value
@@ -88,7 +108,10 @@ const CustomersPage = (props) => {
                             <td className='text-center'>{customer.totalAmount.toLocaleString()}€</td>
                             <td className='text-center'>{customer.unpaidAmount.toLocaleString()}€</td>
                             <td>
-                                <button className='btn btn-sm btn-danger'>Supprimer</button>
+                                <button 
+                                    disabled={customer.invoices.length > 0}
+                                    className='btn btn-sm btn-danger' 
+                                    onClick={() => handleDelete(customer.id)}>Supprimer</button>
                             </td>
                         </tr>
                     ))}

@@ -43,7 +43,7 @@ const CustomersPageWithPagination = (props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {/* Et logique (&&) expr1 && expr2 renvoire expr1 si cette expression peut être conrtie en false, sinon renvoie expre2 */}
+                    {/* Et logique (&&) expr1 && expr2 renvoie expr1 si cette expression peut être convertie en false, sinon renvoie expre2 */}
 
                     {customers.length === 0 && (
                         <tr>

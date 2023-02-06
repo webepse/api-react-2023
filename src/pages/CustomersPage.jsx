@@ -1,16 +1,38 @@
 import { useState, useEffect } from 'react';
-import Axios from "axios"
+import Pagination from '../components/Pagination';
+import customersAPI from '../services/customersAPI';
+
 
 const CustomersPage = (props) => {
 
     const [customers, setCustomers] = useState([])
 
+    //pour la pagination
+    const [currentPage, setCurrentPage] = useState(1)
+
+    const fetchCustomers = async () => {
+        try{
+            const data = await customersAPI.findAll()
+            setCustomers(data)
+        }catch(error)
+        {
+            // notif à faire 
+            console.log(error.response)
+        }
+    }
+
     useEffect(()=>{
-        Axios.get("http://127.0.0.1:8000/api/customers")
-            .then(response => response.data['hydra:member'])
-            .then(data => setCustomers(data))
-            .catch(error => console.log(error.response))
+       fetchCustomers()
     },[])
+
+    // pour la pagination 
+    const handlePageChange = (page) => {
+        setCurrentPage(page)
+    }
+
+    const itemsPerPage = 10 
+
+    const paginatedCustomers = Pagination.getData(customers, currentPage, itemsPerPage)
 
     return ( 
         <>
@@ -29,7 +51,7 @@ const CustomersPage = (props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {customers.map(customer => (
+                    {paginatedCustomers.map(customer => (
                         <tr key={customer.id}>
                             <td>{customer.id}</td>
                             <td>{customer.firstName} {customer.lastName}</td>
@@ -49,6 +71,14 @@ const CustomersPage = (props) => {
                     ))}
                 </tbody>
             </table>
+            {
+                <Pagination
+                    currentPage={currentPage}
+                    itemsPerPage={itemsPerPage}
+                    length={customers.length}
+                    onPageChanged={handlePageChange}
+                />
+            }
         </>
      );
 }

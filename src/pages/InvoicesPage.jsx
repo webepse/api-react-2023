@@ -77,6 +77,54 @@ const InvoicesPage = () => {
     return ( 
         <>
             <h1>Liste des factures</h1>
+             {/*  filtre */}
+             <div className="form-group">
+                <input type="text" className='form-control' placeholder='Rechercher...' value={search} onChange={handleSearch}/>
+            </div>
+            <table className="table table-hover">
+                <thead>
+                    <tr>
+                        <th className="text-center">Numéro</th>
+                        <th className="text-center">Client</th>
+                        <th className="text-center">Date d'envoi</th>
+                        <th className="text-center">Statut</th>
+                        <th className="text-center">Montant</th>
+                        <th className="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        PaginatedInvoices.map(invoice => (
+                            <tr key={invoice.id}>
+                                <td className="text-center">{invoice.id}</td>
+                                <td className="text-center">{invoice.customer.firstName} {invoice.customer.lastName}</td>
+                                <td className="text-center">{formatDate(invoice.sentAt)}</td>
+                                <td className="text-center">
+                                    <span className={`badge bg-${STATUS_CLASSES[invoice.status]}`}>
+                                        {STATUS_LABELS[invoice.status]}
+                                    </span>
+                                </td>
+                                <td className="text-center">{invoice.amount.toLocaleString()}€</td>
+                                <td className="text-center">
+                                    <button className="btn btn-sm btn-warning mx-3">Editer</button>
+                                    <button
+                                        onClick={() => handleDelete(invoice.id)} 
+                                        className='btn btn-sm btn-danger mx-3'>Supprimer</button>
+                                </td>
+                            </tr>
+                        ))
+                    }
+                </tbody>
+            </table>
+            {
+                itemsPerPage < filteredInvoices.length && 
+                <Pagination 
+                    currentPage={currentPage}
+                    itemsPerPage={itemsPerPage}
+                    length={filteredInvoices.length}
+                    onPageChanged={handlePageChange}
+                />
+            }
         </>
      );
 }

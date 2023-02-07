@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
+import authAPI from "../services/authAPI";
 
 const Navbar = (props) => {
+    const handleLogout = () => {
+        authAPI.logout()
+    }
+
     return ( 
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
@@ -22,10 +27,10 @@ const Navbar = (props) => {
                             <a className="nav-link" href="#">Inscription</a>
                         </li>
                         <li className="nav-item">
-                            <a className="btn btn-success" href="#">Connexion</a>
+                            <Link className="btn btn-success" to="/login">Connexion</Link>
                         </li>
                         <li className="nav-item">
-                            <a className="btn btn-danger" href="#">Déconnexion</a>
+                            <button className="btn btn-danger" onClick={handleLogout}>Déconnexion</button>
                         </li>
                     </ul>
                 </div>

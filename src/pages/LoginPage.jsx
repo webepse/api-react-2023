@@ -1,10 +1,12 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import authAPI from '../services/authAPI';
 import { useNavigate } from 'react-router-dom';
+import AuthContext from '../contexts/AuthContext';
 
 const LoginPage = (props) => {
 
     const navigate = useNavigate()
+    const {setIsAuthenticated} = useContext(AuthContext)
 
     const [credentials, setCredentials] = useState({
         username: "",
@@ -33,7 +35,7 @@ const LoginPage = (props) => {
         try{
             await authAPI.authenticate(credentials)
             setError("")
-            props.onLogin(true)
+            setIsAuthenticated(true)
             navigate('/customers', {replace: true})
         }catch(error)
         {

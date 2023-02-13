@@ -42,9 +42,52 @@ const CustomerPage = (props) => {
         }
     },[id])
 
+    const handleChange = (event) => {
+        const {name, value} = event.currentTarget
+        setCustomer({...customer, [name]:value})
+    }
+
     return ( 
         <>
             {!editing ? <h1>Création d'un client</h1> : <h1>Modification d'un client</h1>}
+            <form>
+                <Field 
+                    name="lastName"
+                    label="Nom de famille"
+                    placeholder='Nom de famille du client'
+                    value={customer.lastName}
+                    onChange={handleChange}
+                    error={errors.lastName}
+                />
+                <Field 
+                    name="firstName"
+                    label="Prénom"
+                    placeholder='Prénom du client'
+                    value={customer.firstName}
+                    onChange={handleChange}
+                    error={errors.firstName}
+                />
+                <Field 
+                    name="email"
+                    label="E-mail"
+                    placeholder='E-mail du client'
+                    value={customer.email}
+                    onChange={handleChange}
+                    error={errors.email}
+                />
+                <Field 
+                    name="company"
+                    label="Entreprise"
+                    placeholder='Entreprise du client'
+                    value={customer.company}
+                    onChange={handleChange}
+                    error={errors.company}
+                />
+                <div className="my-3">
+                    <button type="submit" className='btn btn-success'>Enregistrer</button>
+                    <Link to="/customers" className='btn btn-secondary mx-2'>Retour aux clients</Link>
+                </div>
+            </form>
         </>
      )
 }

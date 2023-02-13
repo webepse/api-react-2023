@@ -60,7 +60,16 @@ const CustomerPage = (props) => {
             }
         }catch({response})
         {
-            console.log(response)
+            //console.log(response)
+            const {violations} = response.data
+            //console.log(violations)
+            if(violations){
+                const apiErrors = {}
+                violations.forEach(({propertyPath, message}) => {
+                    apiErrors[propertyPath] = message
+                })
+                setErrors(apiErrors)
+            }
         }
     }
 

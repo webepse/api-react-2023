@@ -42,15 +42,33 @@ const CustomerPage = (props) => {
         }
     },[id])
 
-    const handleChange = (event) => {
-        const {name, value} = event.currentTarget
+    const handleChange = ({currentTarget}) => {
+        const {name, value} = currentTarget
         setCustomer({...customer, [name]:value})
     }
+
+    const handleSubmit = async (event) => {
+        event.preventDefault()
+        //console.log(customer)
+        try{
+            // vérifier si on édite ou non
+            if(editing){
+                await customersAPI.update(id, customer)
+            }else{
+                await customersAPI.create(customer)
+                navigate("/customers", {replace: true})
+            }
+        }catch({response})
+        {
+            console.log(response)
+        }
+    }
+
 
     return ( 
         <>
             {!editing ? <h1>Création d'un client</h1> : <h1>Modification d'un client</h1>}
-            <form>
+            <form onSubmit={handleSubmit}>
                 <Field 
                     name="lastName"
                     label="Nom de famille"

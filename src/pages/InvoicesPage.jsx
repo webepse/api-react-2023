@@ -3,6 +3,7 @@ import Pagination from '../components/Pagination';
 import invoicesAPI from '../services/invoicesAPI';
 import moment from 'moment/moment';
 import { Link } from 'react-router-dom';
+import { toast } from "react-toastify";
 
 const STATUS_CLASSES = {
     PAID: "success",
@@ -29,7 +30,7 @@ const InvoicesPage = () => {
             setInvoices(data)
         }catch(error)
         {
-            // notif
+            toast.error("Erreur lors du chargment des factures")
             console.log(error.response)
         }
     }
@@ -57,10 +58,11 @@ const InvoicesPage = () => {
 
         try{
             await invoicesAPI.delete(id)
+            toast.warning("La facture"+id+" a bien été supprimée")
         }catch(error)
         {
-            // notif
             setInvoices(originalInvoices)
+            toast.error("Une erreur est survenue")
         }
     }
 

@@ -11,6 +11,9 @@ import PrivateRoute from './components/PrivateRoute';
 import AuthContext from './contexts/AuthContext';
 import CustomerPage from './pages/CustomerPage';
 import InvoicePage from './pages/InvoicePage';
+import RegisterPage from './pages/RegisterPage';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css'
 
 authAPI.setup()
 
@@ -30,6 +33,7 @@ const App = () => {
         <main className="container pt-5">
           <Routes>
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
             <Route path="/invoices/:id" element={
               <PrivateRoute>
                 <InvoicePage />
@@ -55,6 +59,7 @@ const App = () => {
           </Routes>
         </main>
       </Router>
+      <ToastContainer position={toast.POSITION.BOTTOM_LEFT} />
     </AuthContext.Provider>
    );
 }

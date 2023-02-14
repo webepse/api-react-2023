@@ -3,6 +3,7 @@ import Field from "../components/forms/Field"
 import { Link, useNavigate } from 'react-router-dom'
 import Axios from 'axios'
 import { toast } from "react-toastify";
+import { USERS_API } from "../config";
 
 const RegisterPage = () => {
 
@@ -39,7 +40,7 @@ const RegisterPage = () => {
             return 
         }
         try{
-            await Axios.post("http://127.0.0.1:8000/api/users", user)
+            await Axios.post(USERS_API, user)
             setErrors({})
             toast.success("Vous êtes inscrit, vous pouvez vous connecter")
             navigate("/login", {replace: true})
